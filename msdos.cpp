@@ -20900,7 +20900,11 @@ int msdos_init(int argc, char *argv[], char *envp[], int standard_env)
 		dpb->next_dpb_ofs = /*(i == 25) ? 0xffff : */(UINT16)(sizeof(dpb_t) * (i + 1));
 		dpb->next_dpb_seg = /*(i == 25) ? 0xffff : */DPB_TOP >> 4;
 	}
-	for(int i = 2; i < 26; i++) {
+	
+	//暫定対処: ドライブレター有りだが存在しないネットワークドライブのチェックで
+	// GetDriveTypeA が異様に時間がかかることがあった。
+	// 少なくとも起動時は LAST_DRIVE 以降の(ネットワーク)ドライブのチェックを行わないように対処.
+	for(int i = 2; i < dos_info->last_drive; i++) {
 		if(msdos_cds_update(i) && (_getdrive() - 1) == i) {
 			// make sure the dcwd env var is set
 			cds_t *cds = (cds_t *)(mem + CDS_TOP + 88 * i);
