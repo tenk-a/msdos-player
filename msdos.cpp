@@ -3447,10 +3447,6 @@ int main(int argc, char *argv[], char *envp[])
 			} else {
 				code_page = get_input_code_page();
 			}
-			// -pの意図とは違うかもしれないけれどコンソール画面にも反映してみる.
-			set_input_code_page(code_page);
-			set_output_code_page(code_page);
-
 			arg_offset++;
 		} else if(_strnicmp(argv[i], "-d", 2) == 0) {
 			no_windows = true;
